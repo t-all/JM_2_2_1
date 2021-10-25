@@ -1,14 +1,11 @@
 package hiber.dao;
 
 import hiber.model.User;
-import org.hibernate.Session;
 import org.hibernate.SessionFactory;
-import org.hibernate.Transaction;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
 import javax.persistence.TypedQuery;
-import java.util.ArrayList;
 import java.util.List;
 
 @Repository
@@ -30,25 +27,17 @@ public class UserDaoImp implements UserDao {
     }
 
     @Override
-    public List<User> listCar(String model, int series) {
-        List<User> users = new ArrayList<>();
-        Session session = sessionFactory.openSession();
-        Transaction transaction = null;
+    public User getUserCar(String model, int series) {
         try {
-            transaction = session.beginTransaction();
-            users = session.createQuery("FROM User WHERE car.model = :model and car.series = :series", User.class)
+            TypedQuery<User> query = sessionFactory.getCurrentSession()
+                    .createQuery("FROM User WHERE car.model = :model and car.series = :series")
                     .setParameter("model", model)
-                    .setParameter("series", series)
-                    .list();
-            transaction.commit();
+                    .setParameter("series", series);
+            return query.getResultList().get(0);
         } catch (Exception e) {
-            if (transaction != null) {
-                transaction.rollback();
-                e.printStackTrace();
-            }
-        } finally {
-            session.close();
+            e.printStackTrace();
         }
-        return users;
+        return null;
     }
 }
+

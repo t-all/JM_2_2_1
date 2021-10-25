@@ -31,9 +31,8 @@ public class MainApp {
             System.out.println();
         }
 
-        List<User> user = userService.listCar("Mercedes", 999);
         System.out.println();
-        user.forEach(System.out::println);
+        System.out.println(userService.getUserCar("BMW", 555));
         System.out.println();
 
         context.close();
