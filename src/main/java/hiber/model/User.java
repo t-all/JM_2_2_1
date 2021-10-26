@@ -1,6 +1,8 @@
 package hiber.model;
 
 
+import org.springframework.stereotype.Component;
+
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
@@ -13,6 +15,7 @@ import javax.persistence.CascadeType;
 
 @Entity
 @Table(name = "users")
+@Component
 public class User {
 
     @Id
